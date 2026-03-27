@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IST Digital Clock</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: monospace;
+            color: #333;
+        }
+
+        #clock {
+            font-size: 4rem;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="clock"></div>
+
+    <script>
+        function showTime() {
+            // Get current time in IST
+            const now = new Date();
+            const options = {
+                timeZone: 'Asia/Kolkata', // Specify Indian Standard Time
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false // Use 24-hour format
+            };
+            
+            // Format the time string using toLocaleTimeString with the IST option
+            let currentTime = now.toLocaleTimeString('en-GB', options);
+
+            // Display the time in the 'clock' div
+            document.getElementById('clock').innerHTML = currentTime;
+        }
+
+        // Update the time every second using setInterval
+        setInterval(showTime, 1000);
+
+        // Initial call to display time immediately on page load
+        showTime();
+    </script>
+
+</body>
+</html>
