@@ -1,58 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8"><!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IST Digital Clock</title>
+    <title>Compact Clock</title>
     <style>
         body {
+            background-color: #000; /* Black background like the image */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #000000;
             margin: 0;
-            font-family: monospace;
-            color: #FFFFFF;
+            font-family: monospace; /* Matching the digital look */
         }
 
-        #clock {
-            font-size: 4rem;
-            padding: 20px 40px;
-            background-color: #454545;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        /* The specific grey box from your picture */
+        .clock-box {
+            background-color: #444; /* Dark grey */
+            padding: 10px 25px;
+            border-radius: 15px; /* Rounded corners */
+            display: inline-flex;
+            align-items: center;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        #time {
+            font-size: 4.5rem; /* Large numbers */
+            font-weight: 500;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        /* The 'math square' style for AM/PM */
+        sup {
+            font-size: 2.2rem;
+            margin-left: 5px;
+            margin-top: 5px;
+            text-transform: uppercase;
+            vertical-align: super;
         }
     </style>
 </head>
 <body>
 
-    <div id="clock"></div>
+    <div class="clock-box">
+        <div id="time"></div>
+    </div>
 
     <script>
-function showTime() {
-const now = new Date();
+        function updateClock() {
+            const now = new Date();
+            
+            // Format to IST 12-hour
+            const options = {
+                timeZone: 'Asia/Kolkata',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            
+            const timeParts = now.toLocaleTimeString('en-IN', options).split(' ');
+            const timeString = timeParts[0]; // e.g. "01:01:33"
+            const ampm = timeParts[1];       // e.g. "pm"
 
-// Format the time string
-const timeString = now.toLocaleTimeString('en-IN', {
-timeZone: 'Asia/Kolkata',
-hour: '2-digit',
-minute: '2-digit',
-second: '2-digit',
-hour12: true
-});
+            document.getElementById('time').innerHTML = `${timeString}<sup>${ampm}</sup>`;
+        }
 
-// Split the time and the AM/PM part
-// Example: "10:30:05 am" -> ["10:30:05", "am"]
-const [time, period] = timeString.split(' ');
-
-// Update the innerHTML to include the <sup> tag for the period
-document.getElementById('clock').innerHTML = `${time}<sup>${period}</sup>`;
-}
-
-// Update every second
-setInterval(showTime, 1000);
-showTime(); // Initial call
-</script>
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
+
