@@ -30,30 +30,29 @@
     <div id="clock"></div>
 
     <script>
-        function showTime() {
-            // Get current time in IST
-            const now = new Date();
-            const options = {
-                timeZone: 'Asia/Kolkata', // Specify Indian Standard Time
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true // Use 24-hour format
-            };
-            
-            // Format the time string using toLocaleTimeString with the IST option
-            let currentTime = now.toLocaleTimeString('en-GB', options);
+function showTime() {
+const now = new Date();
 
-            // Display the time in the 'clock' div
-            document.getElementById('clock').innerHTML = currentTime;
-        }
+// Format the time string
+const timeString = now.toLocaleTimeString('en-IN', {
+timeZone: 'Asia/Kolkata',
+hour: '2-digit',
+minute: '2-digit',
+second: '2-digit',
+hour12: true
+});
 
-        // Update the time every second using setInterval
-        setInterval(showTime, 1000);
+// Split the time and the AM/PM part
+// Example: "10:30:05 am" -> ["10:30:05", "am"]
+const [time, period] = timeString.split(' ');
 
-        // Initial call to display time immediately on page load
-        showTime();
-    </script>
+// Update the innerHTML to include the <sup> tag for the period
+document.getElementById('clock').innerHTML = `${time}<sup>${period}</sup>`;
+}
 
+// Update every second
+setInterval(showTime, 1000);
+showTime(); // Initial call
+</script>
 </body>
 </html>
